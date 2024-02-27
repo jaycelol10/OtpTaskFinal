@@ -124,7 +124,7 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null ) //|| await _userManager.IsEmailConfirmedAsync(user))
+            if (user == null )
                 return View("ForgotPasswordConfirmation");
 
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -139,10 +139,8 @@ public class AccountController : Controller
                 Email = model.Email,
                 UserName = new MailAddress(model.Email).User
             };
-            //var result = await _userManager.CreateAsync(user, model.Email);
+           
             userApp = await _userManager.FindByEmailAsync(model.Email);
-            //generate token to be send to user email
-            //var Token = await _userManager.GeneratePasswordResetTokenAsync(user);
              if (callBackUrl != null)
             {
                 await _emailSender.SendEmailAsync(userApp.Email, "Reset Your Password", "Reset Your Password:\"" + callBackUrl + "\"");
