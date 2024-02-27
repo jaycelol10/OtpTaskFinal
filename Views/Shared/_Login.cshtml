@@ -9,7 +9,7 @@
     <form asp-controller="Account" asp-action="Logoff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-controller="" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <a asp-controller="Account" asp-action="ResetPassword" title="Manage">Hello @UserManager.GetUserName(User)!</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>

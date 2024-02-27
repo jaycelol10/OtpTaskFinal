@@ -8,14 +8,17 @@ public class EmailSender : IEmailSender
 {
     public Task SendEmailAsync(string email, string subject, string message)
     {
-        SmtpClient client = new SmtpClient
+        var mail = "mostafa2gebril@gmail.com";
+        var pw = "Bicohos4;@";
+        SmtpClient client = new SmtpClient("smtp-mail.outlook.com", 587)
         {
-            Host = "smtp-relay.sendinblue.com",
-            Port = 587,
             EnableSsl = true,
             DeliveryMethod = SmtpDeliveryMethod.Network,
-            Credentials = new NetworkCredential("mostafa2gebril@gmail.com", "rsunafjoduxeeumm ")
+            Credentials = new NetworkCredential(mail,pw)
         };
-        return client.SendMailAsync("mostafa2gebril@gmail.com", email, subject, message);
+        return client.SendMailAsync(new MailMessage(from: mail,
+                                                     to: email,
+                                                     subject,
+                                                     message));
     }
 }
