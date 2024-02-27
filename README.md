@@ -27,3 +27,5 @@
 - Register
 - Reset Password
 - Multi-Factor Authentication (using Key,QR Code)
+- lock db(failed attempts)
+- 

@@ -24,7 +24,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(op =>
     //Email conformation options
     
 }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-builder.Services.AddSingleton<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 

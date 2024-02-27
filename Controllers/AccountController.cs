@@ -57,7 +57,7 @@ public class AccountController : Controller
                 });
                 //send it using emailsender service
                 Console.WriteLine(ConfirmationLink);
-               // await _emailSender.SendEmailAsync(user.Email,"Confirm your account","Please confirm your account by clicking this link: <a href=\"" +ConfirmationLink+ "\">link</a>");
+                await _emailSender.SendEmailAsync(user.Email,"Confirm your account","Please confirm your account by clicking this link:\"" +ConfirmationLink+ "\"");
                 return RedirectToAction("Index", "Movies");
             }
         }
@@ -124,7 +124,7 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null || await _userManager.IsEmailConfirmedAsync(user))
+            if (user == null ) //|| await _userManager.IsEmailConfirmedAsync(user))
                 return View("ForgotPasswordConfirmation");
 
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -132,7 +132,23 @@ public class AccountController : Controller
                 HttpContext.Request.Scheme);
             //Print it in terminal instead of sending it to user email
             Console.WriteLine(callBackUrl);
-            return View("ForgotPasswordConfirmation");
+            /////////////////////////////////
+            var userApp = new AppUser
+            {
+
+                Email = model.Email,
+                UserName = new MailAddress(model.Email).User
+            };
+            //var result = await _userManager.CreateAsync(user, model.Email);
+            userApp = await _userManager.FindByEmailAsync(model.Email);
+            //generate token to be send to user email
+            //var Token = await _userManager.GeneratePasswordResetTokenAsync(user);
+             if (callBackUrl != null)
+            {
+                await _emailSender.SendEmailAsync(userApp.Email, "Reset Your Password", "Reset Your Password:\"" + callBackUrl + "\"");
+
+                return View("ForgotPasswordConfirmation");
+            }
         }
 
         return View(model);
