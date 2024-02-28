@@ -29,7 +29,6 @@
 
     ASP.NET (.NET 6)
     Entity Framework (EF) Core
-    LINQ
     ASP.NET Identity
     SQLite as the database backend
 
