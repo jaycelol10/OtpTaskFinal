@@ -173,10 +173,15 @@ public class AccountController : Controller
     public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
-        var user = await _userManager.FindByEmailAsync(model.Email);
-        if (user == null) return RedirectToAction(nameof(ResetPasswordConfirmation), "Account");
 
-        var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+        var user = await _userManager.FindByEmailAsync(model.Email);
+        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        if (user == null) return RedirectToAction(nameof(ResetPasswordConfirmation), "Account");
+        //var result = await _userManager.VerifyTwoFactorTokenAsync(user,
+        //        _userManager.Options.Tokens.AuthenticatorTokenProvider, model.Code);
+
+        var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
         if (result.Succeeded) return RedirectToAction(nameof(ResetPasswordConfirmation), "Account");
 
         return View();
