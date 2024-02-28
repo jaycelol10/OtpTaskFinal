@@ -8,8 +8,8 @@ public class EmailSender : IEmailSender
 {
     public Task SendEmailAsync(string email, string subject, string message)
     {
-        var mail = "mostafa2gebril@gmail.com";
-        var pw = "Bicohos4;@";
+        var mail = "";
+        var pw = "";
         SmtpClient client = new SmtpClient("smtp-mail.outlook.com", 587)
         {
             EnableSsl = true,
